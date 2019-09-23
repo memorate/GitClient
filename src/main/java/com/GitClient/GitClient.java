@@ -116,8 +116,8 @@ public class GitClient implements Serializable {
             Collection<Ref> refCollection = getRefCollection(gitCredit);
             Map<String, List<String>> result = new HashMap<>();
             //split all the branchNames and tagNames
-            List<String> branches = refCollection.stream().map(t -> t.getName().split(BRANCH_PREFIX)[1]).sorted().collect(Collectors.toList());
-            List<String> tags = refCollection.stream().map(t -> t.getName().split(TAG_PREFIX)[1]).sorted().collect(Collectors.toList());
+            List<String> branches = refCollection.stream().filter(each -> each.getName().startsWith(BRANCH_PREFIX)).map(t -> t.getName().split(BRANCH_PREFIX)[1]).sorted().collect(Collectors.toList());
+            List<String> tags = refCollection.stream().filter(each -> each.getName().startsWith(TAG_PREFIX)).map(t -> t.getName().split(TAG_PREFIX)[1]).sorted().collect(Collectors.toList());
             result.put("branches", branches);
             result.put("tags", tags);
             return result;
